@@ -1,31 +1,45 @@
 import React, { useState } from 'react'
+import {FaTrashAlt} from 'react-icons/fa'
 
 const Content = () => {
-    const [name, setName] = useState('Sushil');
-    const [count,setCount] =useState(0);
-
-    const handleNameChange = () => {
-        const names = ['Sushil', 'Sugam', 'Sushant']
-        const int = Math.floor(Math.random() * 3)
-        setName(names[int]);
-    }
-
-    const handleClick = () => {
-        setCount(count+1)
-    }
-
-
+    const [items, setItems] = useState([
+        {
+            id: 1,
+            checked: true,
+            item: "Item 1"
+        },
+        {
+            id: 2,
+            checked: false,
+            item: "Item 2"
+        },
+        {
+            id: 3,
+            checked: false,
+            item: "Item 3"
+        },
+    ]);
+    
   
     return (
-        <div>
-            <p>Hello {name} </p>
-            <button onClick={handleNameChange}>Change Name</button>
+        <main>
+        <ul>
+            {items.map((item)=>(
+                <li className='item' key={item.id}>
+                    <input 
+                        type="checkbox" 
+                        checked = {item.checked}
+                    />
+                    <label>{item.item}</label>
+                    <FaTrashAlt
+                        role="button"
+                        tabIndex= "0"
+                    />
+                </li>
+            ))}
+        </ul>
 
-            <p>Count: {count}</p>
-            <button onClick={handleClick}>Add +1</button>
-   
-
-        </div>
+        </main>
     )
 }
 

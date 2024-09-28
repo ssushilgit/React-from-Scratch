@@ -1,69 +1,35 @@
-import React, { useState } from 'react'
-import {FaTrashAlt} from 'react-icons/fa'
+import React, {  } from 'react'
+import { FaTrashAlt } from 'react-icons/fa'
 
-const Content = () => {
-    const [items, setItems] = useState([
-        {
-            id: 1,
-            checked: true,
-            item: "Item 1"
-        },
-        {
-            id: 2,
-            checked: false,
-            item: "Item 2"
-        },
-        {
-            id: 3,
-            checked: false,
-            item: "Item 3"
-        },
-    ]);
-    
-    const handleCheck = (id) =>{
-        const listItems = items.map((item)=> item.id === id ? {...item, checked: !item.checked} : item);
-        setItems(listItems);
-        localStorage.setItem('shoppinglist',JSON.stringify(listItems));
-    }
-    // What happens inside map()?
-    // If the id matches (meaning this is the item that was clicked), we create a new object for that item by copying its current data ({...item}) and then flipping its checked value (checked: !item.checked).
-    // !item.checked means:
-    // If it was true (checked), it becomes false (unchecked).
-    // If it was false (unchecked), it becomes true (checked).
-    // If the id doesn’t match, the item stays the same, untouched.
-  
-    const handleDelete = (id) =>{
-        const listItems = items.filter((item) => item.id !== id);
-        setItems(listItems);
-        localStorage.setItem('shoppinglist',JSON.stringify(listItems)); 
-    }
+const Content = ({items, handleCheck, handleDelete}) => {
     return (
         <main>
             {items.length ? (
                 <ul>
-                    {items.map((item)=>(
+                    {items.map((item) => (
                         <li className='item' key={item.id}>
-                            <input 
-                                type="checkbox" 
-                                onChange={()=> handleCheck(item.id)}
-                                checked = {item.checked}
+                            <input
+                                type="checkbox"
+                                onChange={() => handleCheck(item.id)}
+                                checked={item.checked}
 
                             />
                             <label
-                                style={(item.checked) ? {textDecoration : 'line-through'} : null}
-                                onDoubleClick={()=> handleCheck(item.id)}
+                                style={(item.checked) ? { textDecoration: 'line-through' } : null}
+                                onDoubleClick={() => handleCheck(item.id)}
                             >{item.item}</label>
+                            
                             <FaTrashAlt
-                                onClick={()=> handleDelete(item.id)}
+                                onClick={() => handleDelete(item.id)}
                                 role="button"
-                                tabIndex= "0"
+                                tabIndex="0"
                             />
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p style={{marginTop: '2rem'}}>Your list is empty.</p>
-            )}  
+                <p style={{ marginTop: '2rem' }}>Your list is empty.</p>
+            )}
 
         </main>
     )

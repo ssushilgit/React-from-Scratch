@@ -1,8 +1,10 @@
 import React from 'react'
 import Header from './Header'
+
 import Content from './Content'
 import Footer from './Footer'
 import { useState } from 'react'
+import AddItem from './AddItem'
 const App = () => {
   const [items, setItems] = useState([
     {
@@ -41,11 +43,18 @@ const App = () => {
   }
 
   return (
-
+ 
     <div className='App'>
       <Header />
-      <Content items={items} handleCheck={handleCheck} handleDelete={handleDelete} />
-      <Footer length={items.length}/>
+      <AddItem/>
+      <Content 
+        items={items} 
+        handleCheck={handleCheck} 
+        handleDelete={handleDelete} 
+      />
+      <Footer 
+        length={items.length}/
+      >
     </div>
   )
 }

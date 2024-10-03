@@ -6,24 +6,11 @@ import Footer from './Footer'
 import { useState } from 'react'
 import AddItem from './AddItem'
 const App = () => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      checked: true,
-      item: "Item 1"
-    },
-    {
-      id: 2,
-      checked: false,
-      item: "Item 2"
-    },
-    {
-      id: 3,
-      checked: false,
-      item: "Item 3"
-    },
-  ]);
-
+  const [items, setItems] = useState(() => {
+    const savedItems = localStorage.getItem('shoppinglist');
+    return savedItems ? JSON.parse(savedItems) : [];
+  });
+  
   const [newItem, setNewItem] = useState('')
 
   const setAndSaveItems = (newItems) => {
@@ -69,8 +56,8 @@ const App = () => {
         handleDelete={handleDelete}
       />
       <Footer
-        length={items.length} /
-      >
+        length={items.length} 
+        />
     </div>
   )
 }

@@ -24,46 +24,52 @@ const App = () => {
     },
   ]);
 
-  const [newItem, setNewItem] =useState('')
+  const [newItem, setNewItem] = useState('')
+
+  const setAndSaveItems = (newItems) => {
+    setItems(newItems);
+    localStorage.setItem('shoppinglist', JSON.stringify(newItems));
+  }
+
+  const addItem = (item) => {
+    const id = items.length ? items[items.length - 1].id + 1 : 1;
+    const myNewItem = { id, checked: false, item };
+    const listItems = [...items, myNewItem];
+    setAndSaveItems(listItems);
+  }
 
   const handleCheck = (id) => {
     const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
-    setItems(listItems);
-    localStorage.setItem('shoppinglist', JSON.stringify(listItems));
+    setAndSaveItems(listItems);
   }
-  // What happens inside map()?
-  // If the id matches (meaning this is the item that was clicked), we create a new object for that item by copying its current data ({...item}) and then flipping its checked value (checked: !item.checked).
-  // !item.checked means:
-  // If it was true (checked), it becomes false (unchecked).
-  // If it was false (unchecked), it becomes true (checked).
-  // If the id doesn’t match, the item stays the same, untouched.
 
   const handleDelete = (id) => {
     const listItems = items.filter((item) => item.id !== id);
-    setItems(listItems);
-    localStorage.setItem('shoppinglist', JSON.stringify(listItems));
+    setAndSaveItems(listItems);
   }
 
-  const handleSubmit = () =>{
-    console.log("Submitted Successfully")
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(!newItem) return;
+    addItem(newItem);
+    setNewItem('')
   }
 
   return (
- 
     <div className='App'>
       <Header />
       <AddItem
-        newItem = {newItem}
-        setNewItem = {setNewItem}
-        handleSubmit = {handleSubmit}
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
       />
-      <Content 
-        items={items} 
-        handleCheck={handleCheck} 
-        handleDelete={handleDelete} 
+      <Content
+        items={items}
+        handleCheck={handleCheck}
+        handleDelete={handleDelete}
       />
-      <Footer 
-        length={items.length}/
+      <Footer
+        length={items.length} /
       >
     </div>
   )
